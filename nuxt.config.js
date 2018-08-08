@@ -1,4 +1,4 @@
-const pkg = require('./package')
+const pkg = require('./package');
 
 module.exports = {
   mode: 'universal',
@@ -15,32 +15,37 @@ module.exports = {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', href: "https://fonts.googleapis.com/css?family=Modern+Antiqua|Open+Sans" },
-    ],
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css?family=Modern+Antiqua|Open+Sans'
+      }
+    ]
   },
 
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#FFFFFF' },
+  loading: { color: '#0078B2', height: '4px', duration: 5000 },
 
   /*
   ** Global CSS
   */
-  css: [
-  ],
+  css: ['~assets/css/main.css'],
 
   /*
   ** Plugins to load before mounting the App
   */
-  plugins: [
-  ],
+  plugins: ['~plugins/core-components.js', '~plugins/date-filter.js'],
 
   /*
   ** Nuxt.js modules
   */
-  modules: [
-  ],
+  modules: ['@nuxtjs/axios'],
+
+  axios: {
+    baseURL: process.env.BASE_URL || 'https://babs-blog-521f7.firebaseio.com',
+    credentials: false
+  },
 
   /*
   ** Build configuration
@@ -57,8 +62,15 @@ module.exports = {
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
           exclude: /(node_modules)/
-        })
+        });
       }
     }
+  },
+  router: {
+    linkActiveClass: 'active'
+  },
+  transition: {
+    name: 'fade',
+    mode: 'out-in'
   }
-}
+};
