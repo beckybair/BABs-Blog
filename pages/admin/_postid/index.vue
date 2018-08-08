@@ -1,30 +1,42 @@
 <template>
   <div class="admin-post-page">
     <section class="update-form">
-      <AdminPostForm :post="loadedPost" />
+      <AdminPostForm :post="loadedPost" @submit="onSubmitted" />
     </section>
   </div>
 </template>
 
 <script>
-import AdminPostForm from '@/components/Admin/AdminPostForm'
+import AdminPostForm from "@/components/Admin/AdminPostForm";
+import axios from "axios";
 
 export default {
-  layout: 'admin',
+  layout: "admin",
   components: {
     AdminPostForm
   },
-  data() {
-    return {
-      loadedPost: {
-        author: 'Becky Boyce',
-        title: 'WooHoo!  I did it!',
-        content: 'It seems like it took forever, but I finally completed it!',
-        thumbnailLink: 'https://images.techhive.com/images/article/2016/11/computerworld_tech_forecast_2017_hottest-tech-skills-for-2017-100692085-large.jpg'
-      }
+  asyncData(context) {
+    return axios
+      .get(
+        "https://babs-blog-521f7.firebaseio.com/posts/" +
+          context.params.postId +
+          ".json"
+      )
+      .then(res => {
+        return {
+          loadedPost: { ...res.data, id: context.params.postId }
+        };
+      })
+      .catch(e => context.error());
+  },
+  methods: {
+    onSubmitted(editedPost) {
+      this.$store.dispatch("editPost", editedPost).then(() => {
+        this.$router.push("/admin");
+      });
     }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -32,6 +44,7 @@ export default {
   width: 90%;
   margin: 20px auto;
 }
+
 @media (min-width: 768px) {
   .update-form {
     width: 500px;

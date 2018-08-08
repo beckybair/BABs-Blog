@@ -15,23 +15,19 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
-  asyncData(context, callback) {
-    setTimeout(() => {
-      callback(null, {
-        loadedPost: {
-          id: '1',
-          title: 'Hello!! (ID: ' + context.route.params.id + ')',
-          previewText: 'This is my first Post',
-          author: 'Becky Boyce',
-          updatedDate: new Date(),
-          content: 'This is the content of the post.  Great day to be Alive!! Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum id dolore culpa necessitatibus fugit similique beatae sed ab dicta molestias, amet sequi possimus perferendis tempore autem sapiente nihil cumque aliquid!',
-          thumbnail: 'http://www.businessbigwigs.com/wp-content/uploads/2013/07/shutterstock_141806476.jpg',
+  asyncData(context) {
+    return axios.get('https://babs-blog-521f7.firebaseio.com/posts/' + context.params.id + '.json')
+      .then(res => {
+        return {
+          loadedPost: res.data
         }
-      });
-    }, 1000);
+      })
+      .catch(e => context.error(e))
   }
-}
+};
 </script>
 
 <style scoped>
