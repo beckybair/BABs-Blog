@@ -3,9 +3,11 @@
     <section class="new-post">
       <AppButton @click="$router.push('/admin/new-post')">Create Post</AppButton>
     </section>
-    <section class="existing-post">
+    <section class="existing-posts">
       <h2>Existing Posts</h2>
-      <PostList isAdmin :posts="loadedPosts" />
+      <PostList
+        isAdmin
+        :posts="loadedPosts" />
     </section>
   </div>
 </template>
@@ -17,7 +19,7 @@ export default {
     loadedPosts() {
       return this.$store.getters.loadedPosts
     }
-  },
+  }
 }
 </script>
 
@@ -32,7 +34,7 @@ export default {
   padding-bottom: 10px;
 }
 
-.existing-posts h1 {
+.existing-posts h2 {
   text-align: center;
 }
 </style>

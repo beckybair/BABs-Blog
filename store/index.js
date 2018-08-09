@@ -10,13 +10,13 @@ const createStore = () => {
         state.loadedPosts = posts;
       },
       addPost(state, post) {
-        state.loadedPosts.push(post);
+        state.loadedPosts.push(post)
       },
       editPost(state, editedPost) {
         const postIndex = state.loadedPosts.findIndex(
           post => post.id === editedPost.id
         );
-        state.loadedPosts[postIndex] = editedPost;
+        state.loadedPosts[postIndex] = editedPost
       }
     },
     actions: {
@@ -36,24 +36,22 @@ const createStore = () => {
         const createdPost = {
           ...post,
           updatedDate: new Date()
-        };
+        }
         return this.$axios
-          .$post('/posts.json', createdPost)
+          .$post('https://babs-blog-521f7.firebaseio.com/posts.json', createdPost)
           .then(data => {
-            vuexContext.commit('addPost', {
-              ...createdPost,
-              id: data.name
-            });
+            vuexContext.commit('addPost', {...createdPost, id: data.name})
           })
           .catch(e => console.log(e));
       },
       editPost(vuexContext, editedPost) {
-        return this.$axios
-          .$put('/posts/' + editedPost.id + '.json', editedPost)
+        return this.$axios.$put('https://babs-blog-521f7.firebaseio.com/posts/' +
+              editedPost.id +
+              '.json', editedPost)
           .then(res => {
-            vuexContext.commit('editPost', editedPost);
+            vuexContext.commit('editPost', editedPost)
           })
-          .catch(e => console.log(e));
+          .catch(e => console.log(e))
       },
       setPosts(vuexContext, posts) {
         vuexContext.commit('setPosts', posts);

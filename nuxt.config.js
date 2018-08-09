@@ -1,4 +1,4 @@
-const pkg = require('./package');
+const pkg = require('./package')
 
 module.exports = {
   mode: 'universal',
@@ -66,11 +66,11 @@ module.exports = {
       }
     }
   },
-  router: {
-    linkActiveClass: 'active'
+  env: {
+    baseUrl: process.env.BASE_URL ||  'https://nuxt-blog.firebaseio.com'
   },
   transition: {
     name: 'fade',
     mode: 'out-in'
   }
-};
+}
